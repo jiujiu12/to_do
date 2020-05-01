@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'Vuetify'
 import App from './App'
 import router from './router'
-
+import mock from './mock/moke'
 // Vue.use(ElementUI);
 Vue.use(Vuetify);
 
