@@ -1,5 +1,5 @@
 <template>
-    <a class="menu-list">
+    <a class="menu-list" v-for="(item,index) in toDoParent" :key="index">
 
     </a>
 </template>

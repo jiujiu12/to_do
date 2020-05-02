@@ -6,10 +6,6 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'board',
-      component: board
-    }
+    {path: '/',name: 'board', component: board}
   ]
 })

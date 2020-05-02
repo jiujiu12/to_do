@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
+    <!-- 菜单栏-->
+    <Menu></Menu>
+    <!--每条事务下的任务面板-->
     <router-view></router-view>
   </div>
 </template>
 <script>
+  import Menu from './components/Menu'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {Menu},
 }
 </script>
 
