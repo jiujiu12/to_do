@@ -1,4 +1,10 @@
-//使用mokejs
+// import axios from './axios';
+// import MockAdapter from 'axios-mock-adapter';
+var axios = require('axios');
+var MockAdapter = require('axios-mock-adapter');
+
+let mock = new MockAdapter(axios);
+//使用mokejs生成数据
 const  Mock=require('mockjs')
 var toDoParent = Mock.mock({
   // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
