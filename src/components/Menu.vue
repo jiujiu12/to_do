@@ -7,11 +7,12 @@
 </template>
 
 <script>
+  import moke from './../mock/moke'
     export default {
       name: "Menu",
       data(){
         return{
-          toDoParent:[{id:1,name:'Cate'},{id:2,name:'Cate2'}],
+          toDoParent:[{id:1,name:'Cate',count:1}],
         }
       },
       methods:{
