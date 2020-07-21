@@ -4,18 +4,18 @@
       <!--头部-->
       <header class="header">
 
-        <h1>todos</h1>
-        <input class="list" v-on:keyup.enter="submit" v-model="newtodo" >
+        <h1>to-dos</h1>
+        <input class="list" v-on:keyup.enter="submit" v-model="newTodo" >
 
       </header>
       <!--/头部-->
-      <!--todolist-->
+      <!--to-do-list-->
       <main>
         <ul class="todo-list">
           <li class="todos"  v-for="(items,i) in todolists" :key="items.id">
-            <div>
-              <input class="select" type="checkbox" :value="items" >
-              <label class="taskText">
+            <div class='select'>
+              <label for="select" :class="{isCompleted:items.completed}"  @change="selectChange(i)">
+                 <input id="select" type="checkbox" v-model="items.completed" :value="items" >
                 {{items.name}}
               </label>
               <button class="del" @click="del(i)">x</button>
@@ -25,7 +25,7 @@
         </ul>
 
       </main>
-      <!--/todolist-->
+      <!--/to-do-list-->
       <!--底部-->
       <footer>
 
@@ -42,19 +42,11 @@ export default {
   name: 'App',
   data(){
     return{
-      newtodo : '',
+      newTodo : '',
       /** lists **/
-      todolists:[
+      todolists : [
         { id : 1,
           name : 'learning',
-          completed: false,
-        },
-        { id : 2,
-          name : 'eating',
-          completed: false,
-        },
-        { id : 3,
-          name : 'hello',
           completed: false,
         },
       ],
@@ -62,58 +54,75 @@ export default {
     }
   },
   computed:{
-    //选中值发生变化
-    /*selectsChange: {
-      return [];
+    // TODO 选中值发生变化后的统计等操作
+    filterToDoLists:function () {
+      this.todolists.forEach(function (item) {
+          if (item.completed){console.log(this);this.style.textDecoration = "line-through";}
+      })
+      return this.todolists;
     }
-*/
+
   },
   watch:{
-    selects: function (newSelects,oldSelects) {
 
-      return newSelects
-    }
   },
 
   /** methods **/
   methods : {
     /**
-     * submit begin
+     * @method 提交新的代办
      * @return(void)
      * @description：每次按下键盘“enter”键后将待办添加
      **/
     submit() {
+      //定义topId并赋值
+      let topId;
+      if (this.todolists.length === 0){topId = 0; }
+      else {topId = parseInt(this.todolists[this.todolists.length-1].id);}
 
-      let topId = this.todolists[this.todolists.length-1];
+      //将名与newtodo值相同的值放进list数组中
       this.todolists.push
       ({
         id : (topId+1),
-        name : this.newtodo,
-        isSelected : false
+        name : this.newTodo,
+        completed : false,
       });
-      this.newtodo = '';
+
+      //newTodo重置为空
+      this.newTodo = '';
+
+      //将to-do-lists存储到本地浏览器
       localStorage.setItem("list",JSON.stringify(this.todolists));
     },
     /**
-     * @Params: val 要删除元素名
+     * @method 删除代办
+     * @param {number} index
      * @return(void)
      * @description: 删除方法
      */
     del(index){
-        this.todolists.splice(index,1);
+      console.log(typeof index);
+      //在to-do-lists的index处删除元素
+      this.todolists.splice(index,1);
+      //在本地浏览器删除指定元素
       localStorage.setItem("list",JSON.stringify(this.todolists));
-      console.log(this.todolists)
     },
     /**
-     * @description: display delLine
+     * @description: 选中任务后，将数据保存在本地
+     * @param: i ：index，用于确认哪个是被选中元素
      **/
-
-
+    selectChange(i){
+      localStorage.setItem("list",JSON.stringify(this.todolists));
+    }
   },
   /** /methods **/
 
+  /**
+   * @description：挂载时从本地浏览器获取lists值
+   */
   mounted(){
     let list = JSON.parse(localStorage.getItem("list"));
+
     if (list){
       this.todolists =list;
     }
@@ -144,9 +153,6 @@ h1{
   }
   .select{
     margin-left: 1%;
-  }
-  .taskText{
-    /*text-decoration: line-through;*/
   }
   .select{
     background-color: white;
@@ -184,8 +190,11 @@ input[type="checkbox"]:checked::before {
   width: 100%;
   border: 1px solid #7D7D7D;
   border-radius:4px;
-  color: #7D7D7D;
+  color: green;
   font-size: 20px;
   font-weight: bold;
 }
+  .isCompleted{
+    text-decoration: line-through solid green;
+  }
 </style>
