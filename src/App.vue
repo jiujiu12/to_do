@@ -5,12 +5,18 @@
       <header class="header">
 
         <h1>to-dos</h1>
-        <input class="list" v-on:keyup.enter="submit" v-model="newTodo" >
+        <input class="list" placeholder="Todo List" v-on:keyup.enter="submit" v-model="newTodo" >
 
       </header>
       <!--/头部-->
       <!--to-do-list-->
       <main>
+
+        <!--全选-->
+        <input type="checkbox" id="toggle-all" class="toggle-all" />
+        <label for="toggle-all" > </label>
+        <!--/全选-->
+
         <ul class="todo-list">
           <li class="todos"  v-for="(items,i) in todolists" :key="items.id">
             <div class='select'>
